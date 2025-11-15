@@ -2,19 +2,27 @@ mod app;
 mod ui;
 mod editor;
 mod terminal;
-mod file;
+mod file_tree;
+mod file_ops;
 
 use eframe::egui;
 use app::CodeEditorApp;
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
-        initial_window_size: Some(egui::vec2(1400.0, 900.0)),
+        initial_window_size: Some(egui::vec2(1600.0, 1000.0)),
         ..Default::default()
     };
-    eframe::run_native(
-        "🔥 Code Editor - Professional Edition",
+    
+    match eframe::run_native(
+        "🔥 Advanced Code Editor",
         options,
         Box::new(|_cc| Box::new(CodeEditorApp::default())),
-    )
+    ) {
+        Ok(_) => Ok(()),
+        Err(e) => {
+            eprintln!("Application error: {:?}", e);
+            Err(e)
+        }
+    }
 }

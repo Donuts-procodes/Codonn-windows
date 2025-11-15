@@ -10,7 +10,9 @@ pub struct CodeEditorApp {
     pub show_sidebar: bool,
     pub show_terminal: bool,
     pub terminal_output: Arc<Mutex<String>>,
-    pub terminal_input: String,
+    pub root_folder: Option<PathBuf>,
+    pub file_tree_expanded: std::collections::HashMap<PathBuf, bool>,
+    pub breadcrumb_path: Vec<PathBuf>,
 }
 
 impl Default for CodeEditorApp {
@@ -22,8 +24,10 @@ impl Default for CodeEditorApp {
             current_file_index: 0,
             show_sidebar: true,
             show_terminal: true,
-            terminal_output: Arc::new(Mutex::new("Welcome to Terminal\n".to_string())),
-            terminal_input: String::new(),
+            terminal_output: Arc::new(Mutex::new("Terminal Ready\n> ".to_string())),
+            root_folder: None,
+            file_tree_expanded: std::collections::HashMap::new(),
+            breadcrumb_path: Vec::new(),
         }
     }
 }
