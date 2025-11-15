@@ -15,7 +15,7 @@ fn main() -> Result<(), eframe::Error> {
     };
     
     match eframe::run_native(
-        "🔥 Advanced Code Editor",
+        "🧬Codonn",
         options,
         Box::new(|_cc| Box::new(CodeEditorApp::default())),
     ) {

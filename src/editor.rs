@@ -33,7 +33,52 @@ pub fn render_editor(app: &mut CodeEditorApp, ui: &mut egui::Ui) {
                     .desired_width(f32::INFINITY)
                     .desired_rows(25);
                 
-                ui.add(text_edit);
+                let _response = ui.add(text_edit);
+                
+                // Auto-completion on text change
+                auto_complete_brackets(&mut app.text);
             });
         });
+}
+
+fn auto_complete_brackets(text: &mut String) {
+    let chars: Vec<char> = text.chars().collect();
+    let len = chars.len();
+    
+    if len < 1 {
+        return;
+    }
+    
+    let last_char = chars[len - 1];
+    
+    match last_char {
+        '(' => {
+            if len >= text.len() || chars.get(len).map_or(true, |&c| c != ')') {
+                text.push(')');
+            }
+        }
+        '[' => {
+            if len >= text.len() || chars.get(len).map_or(true, |&c| c != ']') {
+                text.push(']');
+            }
+        }
+        '{' => {
+            if len >= text.len() || chars.get(len).map_or(true, |&c| c != '}') {
+                text.push('}');
+            }
+        }
+        '"' => {
+            let quote_count = text.matches('"').count();
+            if quote_count % 2 == 1 {
+                text.push('"');
+            }
+        }
+        '\'' => {
+            let quote_count = text.matches('\'').count();
+            if quote_count % 2 == 1 {
+                text.push('\'');
+            }
+        }
+        _ => {}
+    }
 }
